@@ -16,11 +16,20 @@ R2UXScriptIncludeGeneral.prototype = {
 		this.EXPORT.testUtil = this.testUtil.bind(this);
 
 		// Private
+		this.R2UX_TASK_TABLE = "x_387592_from_re_0_r2ux_task";
 		
     },
 
-	testUtil: function(){
-		return "Success";
+	testUtil: function(inputString = "With No Input"){
+		return {
+			result: `Success ${inputString}`
+		};
+	},
+
+	getr2uxTask: function(){
+		return {
+			"status": "success"
+		}
 	},
 
     type: 'R2UXScriptIncludeGeneral'
@@ -29,13 +38,13 @@ R2UXScriptIncludeGeneral.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2023-09-16 21:28:02</sys_created_on>
         <sys_id>5d418d0e47113110d1df690cd36d4326</sys_id>
-        <sys_mod_count>6</sys_mod_count>
+        <sys_mod_count>12</sys_mod_count>
         <sys_name>R2UXScriptIncludeGeneral</sys_name>
         <sys_package display_value="R2UX" source="x_387592_from_re_0">9e20040147703110d1df690cd36d4331</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="R2UX">9e20040147703110d1df690cd36d4331</sys_scope>
         <sys_update_name>sys_script_include_5d418d0e47113110d1df690cd36d4326</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2023-09-17 03:02:07</sys_updated_on>
+        <sys_updated_on>2023-09-18 01:54:21</sys_updated_on>
     </sys_script_include>
 </record_update>
