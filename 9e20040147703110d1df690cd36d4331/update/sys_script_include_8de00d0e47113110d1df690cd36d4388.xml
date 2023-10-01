@@ -2,32 +2,33 @@
     <sys_script_include action="INSERT_OR_UPDATE">
         <access>package_private</access>
         <active>true</active>
-        <api_name>x_387592_from_re_0.R2UXScriptIncludeUtils</api_name>
+        <api_name>x_387592_from_re_0.R2UXUtils</api_name>
         <caller_access/>
         <client_callable>false</client_callable>
         <description/>
-        <name>R2UXScriptIncludeUtils</name>
-        <script><![CDATA[var R2UXScriptIncludeUtils = Class.create();
-R2UXScriptIncludeUtils.prototype = {
+        <name>R2UXUtils</name>
+        <script><![CDATA[var R2UXUtils = Class.create();
+R2UXUtils.prototype = {
     initialize: function() {
 
-		new R2UXScriptIncludeGeneral(this);
+		new R2UXGeneral(this);
+		new R2UXDemandUtils(this);
 
     },
 
-    type: 'R2UXScriptIncludeUtils'
+    type: 'R2UXUtils'
 };]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2023-09-16 21:27:30</sys_created_on>
         <sys_id>8de00d0e47113110d1df690cd36d4388</sys_id>
-        <sys_mod_count>7</sys_mod_count>
-        <sys_name>R2UXScriptIncludeUtils</sys_name>
+        <sys_mod_count>17</sys_mod_count>
+        <sys_name>R2UXUtils</sys_name>
         <sys_package display_value="R2UX" source="x_387592_from_re_0">9e20040147703110d1df690cd36d4331</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="R2UX">9e20040147703110d1df690cd36d4331</sys_scope>
         <sys_update_name>sys_script_include_8de00d0e47113110d1df690cd36d4388</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2023-09-17 03:00:53</sys_updated_on>
+        <sys_updated_on>2023-10-01 03:29:39</sys_updated_on>
     </sys_script_include>
 </record_update>

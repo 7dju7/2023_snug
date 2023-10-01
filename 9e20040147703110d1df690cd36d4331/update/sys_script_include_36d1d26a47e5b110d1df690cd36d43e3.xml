@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_387592_from_re_0.R2UXDemandUtils</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>R2UXDemandUtils</name>
+        <script><![CDATA[var R2UXDemandUtils = Class.create();
+R2UXDemandUtils.prototype = {
+    initialize: function(PARENT) {
+		this.EXPORT = this.R2UXUtils = PARENT;
+
+		// Exports
+		this.EXPORT.createDemand = this.createDemand.bind(this);
+		this.EXPORT.updateDemand = this.updateDemand.bind(this);
+		this.EXPORT.getDemand = this.getDemand.bind(this);
+
+		// Private
+		this.R2UX_DEMAND_TABLE = "x_387592_from_re_0_demands";
+		this.R2UX_TASK_TABLE = "x_387592_from_re_0_r2ux_task";
+		
+    },
+
+	createDemand: function(fields){
+		var demandGR = new GlideRecord(this.R2UX_DEMAND_TABLE);
+		demandGR.initialize();
+		for (var field in fields) {
+			demandGR.setValue(field, fields[field]);
+		}
+		demandGR.insert();
+		return demandGR;
+	},
+
+	updateDemand: function(demandId, fields){
+		var demandGR = new GlideRecord(this.R2UX_DEMAND_TABLE);
+		if (demandGR.get(demandId)) {
+			for (var field in fields) {
+				demandGR.setValue(field, fields[field]);
+			}
+			demandGR.update();
+
+			return demandGR;
+		} else {
+			gs.error('Demand record not found: ' + demandId);
+		}
+	},
+
+	getDemand: function(demandId){
+		var demandGR = new GlideRecord(this.R2UX_DEMAND_TABLE);
+		if (demandGR.get(demandId)) {
+			return demandGR;
+		} else {
+			gs.error('Demand record not found: ' + demandId);
+			return null;
+		}
+	},
+
+    type: 'R2UXDemandUtils'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-10-01 02:52:46</sys_created_on>
+        <sys_id>36d1d26a47e5b110d1df690cd36d43e3</sys_id>
+        <sys_mod_count>15</sys_mod_count>
+        <sys_name>R2UXDemandUtils</sys_name>
+        <sys_package display_value="R2UX" source="x_387592_from_re_0">9e20040147703110d1df690cd36d4331</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="R2UX">9e20040147703110d1df690cd36d4331</sys_scope>
+        <sys_update_name>sys_script_include_36d1d26a47e5b110d1df690cd36d43e3</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-10-01 04:33:16</sys_updated_on>
+    </sys_script_include>
+</record_update>

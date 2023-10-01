@@ -5,27 +5,42 @@
         <enforce_acl/>
         <name>R2UX GraphQL API</name>
         <namespace>r2uxGqlApi</namespace>
-        <paths>Query:getR2uxTask,Query:testAPI,Task:result,Task:sys_id,TestResult:result</paths>
+        <paths>Demand:description,Demand:sys_id,Demand:title,Mutation:createDemand,Mutation:updateDemand,Query:getDemand,Query:getR2uxTask,Query:testAPI,Task:result,Task:sys_id,TestResult:result</paths>
         <requires_acl_authorization>false</requires_acl_authorization>
         <requires_authentication>true</requires_authentication>
         <requires_snc_internal_role>true</requires_snc_internal_role>
         <schema>schema {
     query: Query
-    # mutation: Mutation
+    mutation: Mutation
 }
 
 type Query {
 	testAPI: TestResult
 	getR2uxTask(taskID: String!): Task
+	getDemand(sys_id: String): Demand
 }
 
-# type Mutation {
-#     #implement here...
-# }
+type Mutation {
+    createDemand(input: DemandInput): Demand
+    updateDemand(input: DemandInput): Demand
+}
 
 type Task {
 	sys_id: String
 	result: String
+}
+
+type Demand {
+	sys_id: String
+	title: String
+	description: String
+}
+
+input DemandInput {
+	action: String
+	title: String
+	description: String
+	sys_id: String
 }
 
 type TestResult {
@@ -36,14 +51,14 @@ type TestResult {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2023-09-17 19:57:03</sys_created_on>
         <sys_id>fb0539124795b110d1df690cd36d431b</sys_id>
-        <sys_mod_count>7</sys_mod_count>
+        <sys_mod_count>21</sys_mod_count>
         <sys_name>R2UX GraphQL API</sys_name>
         <sys_package display_value="R2UX" source="x_387592_from_re_0">9e20040147703110d1df690cd36d4331</sys_package>
         <sys_policy/>
         <sys_scope display_value="R2UX">9e20040147703110d1df690cd36d4331</sys_scope>
         <sys_update_name>sys_graphql_schema_fb0539124795b110d1df690cd36d431b</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2023-09-18 02:02:44</sys_updated_on>
+        <sys_updated_on>2023-10-01 04:50:28</sys_updated_on>
         <type_names/>
     </sys_graphql_schema>
 </record_update>
