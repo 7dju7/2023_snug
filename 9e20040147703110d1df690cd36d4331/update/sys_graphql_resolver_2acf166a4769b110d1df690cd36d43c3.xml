@@ -5,12 +5,12 @@
         <script><![CDATA[(function process(/*ResolverEnvironment*/ env) {
 
     const {input} = env.getArguments();
-    const {action} = input;
+    const {action, fieldValues} = input;
     const utils = new x_387592_from_re_0.R2UXUtils();
 
     if(action === "create") {
 
-        const demandGR = utils.createDemand(input);
+        const demandGR = utils.createDemand(fieldValues);
 
         return {
             sys_id: demandGR.sys_id.toString(),
@@ -22,43 +22,30 @@
     if(action === "update") {
             
             const {sys_id} = input;
-            delete input.action;
-            delete input.sys_id;
     
-            const demandGR = utils.updateDemand(sys_id, input);
+            const demandGR = utils.updateDemand(sys_id, fieldValues);
     
             return {
                 sys_id: demandGR.sys_id.toString(),
-                title: input.title,
-                description: input.description
+                title: demandGR.getDisplayValue("title"),
+                description: demandGR.getDisplayValue("description"),
+                number: demandGR.getDisplayValue("number"),
+                archived: demandGR.getDisplayValue("archived"),
             };
     }
-    gs.info("action: " + action);
-    
-    if(action === "get") {
-        const {sys_id} = input;
-        const demandGR = utils.getDemand(sys_id);
-
-        return {
-            sys_id: demandGR.sys_id.toString(),
-            title: demandGR.getDisplayValue("title"),
-            description: demandGR.getDisplayValue("description")
-        };
-    }
-
 
 })(env);]]></script>
         <sys_class_name>sys_graphql_resolver</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2023-10-01 03:54:20</sys_created_on>
         <sys_id>2acf166a4769b110d1df690cd36d43c3</sys_id>
-        <sys_mod_count>15</sys_mod_count>
+        <sys_mod_count>21</sys_mod_count>
         <sys_name>Demand Mutations</sys_name>
         <sys_package display_value="R2UX" source="x_387592_from_re_0">9e20040147703110d1df690cd36d4331</sys_package>
         <sys_policy/>
         <sys_scope display_value="R2UX">9e20040147703110d1df690cd36d4331</sys_scope>
         <sys_update_name>sys_graphql_resolver_2acf166a4769b110d1df690cd36d43c3</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2023-10-01 04:48:33</sys_updated_on>
+        <sys_updated_on>2023-10-09 03:11:27</sys_updated_on>
     </sys_graphql_resolver>
 </record_update>

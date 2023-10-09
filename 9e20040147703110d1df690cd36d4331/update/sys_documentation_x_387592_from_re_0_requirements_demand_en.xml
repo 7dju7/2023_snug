@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update>
-    <sys_documentation element="description" label="Description" language="en" table="x_387592_from_re_0_demands">
+    <sys_documentation element="demand" label="Demand" language="en" table="x_387592_from_re_0_requirements">
         <sys_documentation action="INSERT_OR_UPDATE">
-            <element>description</element>
+            <element>demand</element>
             <help/>
             <hint/>
-            <label>Description</label>
+            <label>Demand</label>
             <language>en</language>
-            <name>x_387592_from_re_0_demands</name>
+            <name>x_387592_from_re_0_requirements</name>
             <plural/>
             <sys_class_name>sys_documentation</sys_class_name>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2023-10-01 02:46:35</sys_created_on>
-            <sys_mod_count>5</sys_mod_count>
-            <sys_name>Description</sys_name>
+            <sys_created_on>2023-10-09 02:23:37</sys_created_on>
+            <sys_mod_count>3</sys_mod_count>
+            <sys_name>Demand</sys_name>
             <sys_package display_value="R2UX" source="x_387592_from_re_0">9e20040147703110d1df690cd36d4331</sys_package>
             <sys_policy/>
             <sys_scope display_value="R2UX">9e20040147703110d1df690cd36d4331</sys_scope>
-            <sys_update_name>sys_documentation_x_387592_from_re_0_demands_description_en</sys_update_name>
+            <sys_update_name>sys_documentation_x_387592_from_re_0_requirements_demand_en</sys_update_name>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2023-10-01 19:16:41</sys_updated_on>
+            <sys_updated_on>2023-10-09 02:23:38</sys_updated_on>
             <url/>
             <url_target/>
         </sys_documentation>

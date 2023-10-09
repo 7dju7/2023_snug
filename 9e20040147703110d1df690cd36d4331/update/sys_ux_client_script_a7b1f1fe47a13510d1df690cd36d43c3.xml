@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ux_client_script">
+    <sys_ux_client_script action="INSERT_OR_UPDATE">
+        <controller_preset/>
+        <includes/>
+        <macroponent display_value="Default">cdc0c50e47113110d1df690cd36d4395</macroponent>
+        <name>Utils</name>
+        <preset/>
+        <required_translations>[
+    
+]</required_translations>
+        <script><![CDATA[function handler({
+    api,
+    event,
+    helpers,
+    imports
+}) {
+    console.log(JSON.stringify(event, null, 2));
+
+    const {
+        elementId,
+        name
+    } = event;
+
+    const FORM_VALUE_UPDATED = (name === 'NOW_RECORD_FORM_SECTION_COLUMN_LAYOUT#SET_VALUE' && elementId === 'form_default');
+    const FORM_SUBMITTED = (name === 'NOW_BUTTON#CLICKED' && elementId === 'submit_button');
+    const CREATE_DEMAND_RECORD = (name === 'DATA_OP_SUCCEEDED' && elementId === 'create_demand_record');
+    const TRIAGE_TAB_SELECTED = (name === 'UXF_TAB_SET#TAB_SELECTED' && elementId === 'tabs_1' && event.payload.selectedTabIndex === 1);
+    const DEMAND_RECORDS_FETCHED = (name === 'DATA_FETCH_SUCCEEDED' && elementId === 'get_demand_records_1');
+    const DEMAND_CARD_CLICKED = (name === 'NOW_TEMPLATE_CARD_ASSIST#SELECTED_SET' && elementId === 'demand_card');
+    const CONVERT_DEMAND_TO_REQUIREMENT = (name === 'NOW_TEMPLATE_CARD_ASSIST#ACTION_CLICKED' && elementId === 'demand_card' && event.payload.action.id === 'convert');
+    const ARCHIVE_DEMAND = (name === 'NOW_TEMPLATE_CARD_ASSIST#ACTION_CLICKED' && elementId === 'demand_card' && event.payload.action.id === 'archive');
+    const DEMAND_CONVERTED = (name === 'DATA_OP_SUCCEEDED' && elementId === 'convert_demand');
+    const DEMAND_ARCHIVED = (name === 'DATA_OP_SUCCEEDED' && elementId === 'update_demand_record');
+    const MODAL_ARCHIVE_BUTTON_CLICKED = (name === 'NOW_BUTTON#CLICKED' && elementId === 'modal_archive');
+    const MODAL_CONVERT_BUTTON_CLICKED = (name === 'NOW_BUTTON#CLICKED' && elementId === 'modal_convert');
+    const SHOW_STATE_BUTTON_CLICKED = (name === 'NOW_BUTTON#CLICKED' && elementId === 'show_state');
+
+    function upsertField(updatesFromState, payload) {
+        const {
+            fieldName,
+            value
+        } = payload;
+        return {
+            ...updatesFromState,
+            [fieldName]: value
+        };
+    }
+
+    function updateNestedStateValue(api, stateParameter, nestedKey, newValue) {
+        api.setState(stateParameter, ({
+            currentValue
+        }) => {
+            return {
+                ...currentValue,
+                [nestedKey]: newValue
+            }
+        });
+    }
+
+    function updateValidation(api, fieldName, validationCondition) {
+        const requirementFulfilledKey = `${fieldName}RequirementFulfilled`;
+        updateNestedStateValue(api, 'validations', requirementFulfilledKey, validationCondition);
+    }
+
+    if (FORM_VALUE_UPDATED) {
+        const {
+            payload: updateDetails
+        } = event;
+        const {
+            fieldName
+        } = updateDetails;
+        const updatesFromState = api.state.demandUpdates || {};
+        const updatedValues = upsertField(updatesFromState, updateDetails);
+
+        if (fieldName === 'title' || updateDetails.fieldName === 'description') {
+            updateValidation(api, fieldName, updateDetails.value !== '');
+        }
+
+        api.setState("demandUpdates", updatedValues);
+    }
+
+    if (FORM_SUBMITTED) {
+        api.data.create_demand_record.execute({
+            "input": {
+                "action": "create",
+                "fieldValues": api.state.demandUpdates
+            }
+        })
+    }
+
+    if (CREATE_DEMAND_RECORD) {
+        api.emit("NOW_UXF_PAGE#ADD_NOTIFICATIONS", {
+            items: [
+                {
+                    id: "create_demand_success",
+                    status: "moderate",
+                    icon: "info-circle-outline",
+                    content: "Demand Record Created Succcessfully!",
+                    action: {type: "acknowledge"}
+                }
+            ]
+        });
+
+        api.setState("demandUpdates", {});
+        api.setState("validations", {});
+        api.setState("demandSysId", null);
+        helpers.timing.setTimeout(()=> {
+            api.setState("demandSysId", -1);
+        }, 1000);
+
+    }
+
+    if(TRIAGE_TAB_SELECTED){
+        api.data.get_demand_records_1.refresh();
+        api.setState("loading", true);
+    }
+
+    if(DEMAND_RECORDS_FETCHED){
+        const {getDemandsByQuery: demandRecords} = api.data.get_demand_records_1.output.data.x387592FromRe0.r2uxGqlApi;
+        
+        api.setState("demandRecords", demandRecords);
+        
+        // TODO: CREATE AN OBJECT THAT REPRESENTS THE DATA STRUCTURE OF THE CARD COMPONENT FIELDS
+
+        const formattedDemandRecords = [];
+
+        demandRecords.map((record) => {
+            formattedDemandRecords.push({
+                sys_id: record.sys_id,
+                tagline: {
+                    label: record.number,
+                    icon: 'tree-view-long-outline'
+                },
+                heading: {
+                    label: record.title,
+                    level: 3
+                },
+                content: [{
+                    label: `Service: ${record.service}`,
+                    value: ""
+                }],
+                footer: {
+                    label: 'Description',
+                    reversed: false,
+                    value: record.description
+                },
+            });
+        });
+
+        api.setState("formattedDemandRecords", formattedDemandRecords);
+        api.setState("loading", false);
+    }
+
+    if(DEMAND_CARD_CLICKED){
+        api.setState("selectedDemand", event.context.item.value.sys_id);
+        helpers.modal.open("demand_modal");
+    }
+
+    if(CONVERT_DEMAND_TO_REQUIREMENT){
+        api.data.convert_demand.execute({
+            "demandSysId": event.context.item.value.sys_id
+        });
+    }
+
+    if(DEMAND_CONVERTED){
+        api.data.get_demand_records_1.refresh();
+
+        api.emit("NOW_UXF_PAGE#ADD_NOTIFICATIONS", {
+            items: [
+                {
+                    id: "convert_demand_success",
+                    status: "moderate",
+                    icon: "info-circle-outline",
+                    content: "Demand Record Converted Succcessfully!",
+                    action: {type: "acknowledge"}
+                }
+            ]
+        });
+    }
+
+    if(ARCHIVE_DEMAND){
+        api.data.update_demand_record.execute({
+            "input": {
+                "action": "update",
+                "sys_id": event.context.item.value.sys_id,
+                "fieldValues": {
+                    "archived": true
+                },
+            }
+        })
+    }
+
+    if(DEMAND_ARCHIVED){
+        api.data.get_demand_records_1.refresh();
+
+        api.emit("NOW_UXF_PAGE#ADD_NOTIFICATIONS", {
+            items: [
+                {
+                    id: "archive_demand_success",
+                    status: "moderate",
+                    icon: "info-circle-outline",
+                    content: "Demand Record Archived Succcessfully!",
+                    action: {type: "acknowledge"}
+                }
+            ]
+        });
+    }
+
+    if(MODAL_ARCHIVE_BUTTON_CLICKED){
+        api.data.update_demand_record.execute({
+            "input": {
+                "action": "update",
+                "sys_id": api.state.selectedDemand,
+                "fieldValues": {
+                    "archived": true
+                },
+            }
+        })
+
+        helpers.modal.close("demand_modal");
+
+        api.emit("NOW_UXF_PAGE#ADD_NOTIFICATIONS", {
+            items: [
+                {
+                    id: "archive_demand_success",
+                    status: "moderate",
+                    icon: "info-circle-outline",
+                    content: "Demand Record Archived Succcessfully!",
+                    action: {type: "acknowledge"}
+                }
+            ]
+        });
+    }
+    
+    if(MODAL_CONVERT_BUTTON_CLICKED){
+        api.data.convert_demand.execute({
+            "demandSysId": api.state.selectedDemand
+        });
+        
+        helpers.modal.close("demand_modal");
+
+        api.emit("NOW_UXF_PAGE#ADD_NOTIFICATIONS", {
+            items: [
+                {
+                    id: "convert_demand_success",
+                    status: "moderate",
+                    icon: "info-circle-outline",
+                    content: "Demand Record Converted Succcessfully!",
+                    action: {type: "acknowledge"}
+                }
+            ]
+        });
+    }
+
+    if(SHOW_STATE_BUTTON_CLICKED){
+        api.setState("hideState", !api.state.hideState);
+    }
+}]]></script>
+        <script_api_version>2.0.0</script_api_version>
+        <sys_class_name>sys_ux_client_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-10-01 19:18:01</sys_created_on>
+        <sys_id>a7b1f1fe47a13510d1df690cd36d43c3</sys_id>
+        <sys_mod_count>243</sys_mod_count>
+        <sys_name>Utils</sys_name>
+        <sys_package display_value="R2UX" source="x_387592_from_re_0">9e20040147703110d1df690cd36d4331</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="R2UX">9e20040147703110d1df690cd36d4331</sys_scope>
+        <sys_update_name>sys_ux_client_script_a7b1f1fe47a13510d1df690cd36d43c3</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-10-09 03:51:34</sys_updated_on>
+        <target>macroponent</target>
+        <type>default</type>
+    </sys_ux_client_script>
+</record_update>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ux_data_broker_graphql">
+    <sys_ux_data_broker_graphql action="INSERT_OR_UPDATE">
+        <api_name>x_387592_from_re_0.Convert Demand</api_name>
+        <description/>
+        <mutates_server_data>true</mutates_server_data>
+        <name>Convert Demand</name>
+        <output_schema/>
+        <private>false</private>
+        <props>[&#13;
+  {&#13;
+        "name": "demandSysId",&#13;
+        "label": "Demand Sys ID",&#13;
+        "description": "Sys Id as a string",&#13;
+        "readOnly": false,&#13;
+        "fieldType": "string",&#13;
+        "mandatory": true,&#13;
+        "defaultValue": {}&#13;
+  }&#13;
+]</props>
+        <query>mutation ($demandSysId: String) {&#13;
+  x387592FromRe0 {&#13;
+    r2uxGqlApi {&#13;
+      convertDemand(demandSysId: $demandSysId) {&#13;
+        sys_id&#13;
+        short_description&#13;
+        description&#13;
+        number&#13;
+      }&#13;
+    }&#13;
+  }&#13;
+}</query>
+        <required_translations>[ {
+  "message" : "Demand Sys ID",
+  "comment" : ""
+}, {
+  "message" : "Sys Id as a string",
+  "comment" : ""
+} ]</required_translations>
+        <schema_version>1.0.0</schema_version>
+        <script><![CDATA[(function buildQuery(query, inputs) { 
+         var qb = new GraphQLQueryBuilder(query, inputs);
+   // return appropriate query here
+    return qb; 
+   })(query, inputs);]]></script>
+        <sys_class_name>sys_ux_data_broker_graphql</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-10-09 02:46:07</sys_created_on>
+        <sys_id>4dfc1f0147fd3110d1df690cd36d438a</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Convert Demand</sys_name>
+        <sys_package display_value="R2UX" source="x_387592_from_re_0">9e20040147703110d1df690cd36d4331</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="R2UX">9e20040147703110d1df690cd36d4331</sys_scope>
+        <sys_update_name>sys_ux_data_broker_graphql_4dfc1f0147fd3110d1df690cd36d438a</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-10-09 02:47:24</sys_updated_on>
+        <type>query</type>
+        <use_record_domain>false</use_record_domain>
+    </sys_ux_data_broker_graphql>
+    <sys_translated_text action="delete_multiple" query="documentkey=4dfc1f0147fd3110d1df690cd36d438a"/>
+</record_update>

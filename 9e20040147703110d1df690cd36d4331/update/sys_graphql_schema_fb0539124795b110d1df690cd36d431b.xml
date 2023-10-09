@@ -5,7 +5,7 @@
         <enforce_acl/>
         <name>R2UX GraphQL API</name>
         <namespace>r2uxGqlApi</namespace>
-        <paths>Demand:description,Demand:sys_id,Demand:title,Mutation:createDemand,Mutation:updateDemand,Query:getDemand,Query:testAPI,Task:result,Task:sys_id,TestResult:result</paths>
+        <paths>Demand:archived,Demand:description,Demand:number,Demand:sys_id,Demand:title,Demands:description,Demands:number,Demands:service,Demands:sys_id,Demands:title,Mutation:convertDemand,Mutation:createDemand,Mutation:updateDemand,Query:getDemand,Query:getDemandsByQuery,Query:testAPI,Requirement:description,Requirement:number,Requirement:short_description,Requirement:sys_id,Task:result,Task:sys_id,TestResult:result</paths>
         <requires_acl_authorization>false</requires_acl_authorization>
         <requires_authentication>true</requires_authentication>
         <requires_snc_internal_role>true</requires_snc_internal_role>
@@ -18,11 +18,13 @@ type Query {
 	testAPI: TestResult
 	# getR2uxTask(taskID: String!): Task
 	getDemand(sys_id: String): Demand
+	getDemandsByQuery(encodedQuery: String): [Demands]
 }
 
 type Mutation {
     createDemand(input: DemandInput): Demand
     updateDemand(input: DemandInput): Demand
+	convertDemand(demandSysId: String): Requirement
 }
 
 type Task {
@@ -34,13 +36,38 @@ type Demand {
 	sys_id: String
 	title: String
 	description: String
+	number: String
+	archived: Boolean
+}
+
+type Demands {
+	sys_id: String @source(value: "sys_id.value")
+	title: String @source(value: "title.display_value")
+	description: String @source(value: "description.display_value")
+	number: String @source(value: "number.value")
+	service: String @source(value: "service.display_value")
+}
+
+type Requirement {
+	sys_id: String @source(value: "sys_id.value")
+	short_description: String @source(value: "short_description.display_value")
+	description: String @source(value: "description.display_value")
+	number: String @source(value: "number.value")
 }
 
 input DemandInput {
 	action: String
 	title: String
 	description: String
+	fieldValues: DemandFieldInputs
 	sys_id: String
+}
+
+input DemandFieldInputs {
+	title: String
+	description: String
+	service: String
+	archived: Boolean
 }
 
 type TestResult {
@@ -51,14 +78,14 @@ type TestResult {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2023-09-17 19:57:03</sys_created_on>
         <sys_id>fb0539124795b110d1df690cd36d431b</sys_id>
-        <sys_mod_count>22</sys_mod_count>
+        <sys_mod_count>38</sys_mod_count>
         <sys_name>R2UX GraphQL API</sys_name>
         <sys_package display_value="R2UX" source="x_387592_from_re_0">9e20040147703110d1df690cd36d4331</sys_package>
         <sys_policy/>
         <sys_scope display_value="R2UX">9e20040147703110d1df690cd36d4331</sys_scope>
         <sys_update_name>sys_graphql_schema_fb0539124795b110d1df690cd36d431b</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2023-10-01 04:55:07</sys_updated_on>
+        <sys_updated_on>2023-10-09 03:04:10</sys_updated_on>
         <type_names/>
     </sys_graphql_schema>
 </record_update>

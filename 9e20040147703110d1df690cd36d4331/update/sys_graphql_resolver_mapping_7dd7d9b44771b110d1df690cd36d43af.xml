@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_graphql_resolver_mapping">
+    <sys_graphql_resolver_mapping action="INSERT_OR_UPDATE">
+        <path>Query:getDemandsByQuery</path>
+        <resolver display_value="Get Demand Records">75a715784771b110d1df690cd36d43c1</resolver>
+        <schema display_value="R2UX GraphQL API">fb0539124795b110d1df690cd36d431b</schema>
+        <sys_class_name>sys_graphql_resolver_mapping</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-10-07 22:25:48</sys_created_on>
+        <sys_id>7dd7d9b44771b110d1df690cd36d43af</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="R2UX" source="x_387592_from_re_0">9e20040147703110d1df690cd36d4331</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="R2UX">9e20040147703110d1df690cd36d4331</sys_scope>
+        <sys_update_name>sys_graphql_resolver_mapping_7dd7d9b44771b110d1df690cd36d43af</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-10-07 22:25:48</sys_updated_on>
+    </sys_graphql_resolver_mapping>
+</record_update>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ux_data_broker_graphql">
+    <sys_ux_data_broker_graphql action="INSERT_OR_UPDATE">
+        <api_name>x_387592_from_re_0.Create Demand Record</api_name>
+        <description/>
+        <mutates_server_data>true</mutates_server_data>
+        <name>Create Demand Record</name>
+        <output_schema/>
+        <private>false</private>
+        <props>[&#13;
+  {&#13;
+        "name": "input",&#13;
+        "label": "Input",&#13;
+        "description": "Input as a JSON Object with keys: action: 'create', title, description",&#13;
+        "readOnly": false,&#13;
+        "fieldType": "json",&#13;
+        "mandatory": true,&#13;
+        "defaultValue": {}&#13;
+  }&#13;
+]</props>
+        <query>mutation ($input: x387592FromRe0_r2uxGqlApi_DemandInput) {&#13;
+  x387592FromRe0 {&#13;
+    r2uxGqlApi {&#13;
+      createDemand(input: $input) {&#13;
+          sys_id&#13;
+          title&#13;
+          description&#13;
+      }&#13;
+    }&#13;
+  }&#13;
+}</query>
+        <required_translations>[ {
+  "message" : "Input",
+  "comment" : ""
+}, {
+  "message" : "Input as a JSON Object with keys: action: 'create', title, description",
+  "comment" : ""
+} ]</required_translations>
+        <schema_version>1.0.0</schema_version>
+        <script><![CDATA[(function buildQuery(query, inputs) { 
+         var qb = new GraphQLQueryBuilder(query, inputs);
+   // return appropriate query here
+    return qb; 
+   })(query, inputs);]]></script>
+        <sys_class_name>sys_ux_data_broker_graphql</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-10-01 21:00:41</sys_created_on>
+        <sys_id>abba4a7247a53510d1df690cd36d438d</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Create Demand Record</sys_name>
+        <sys_package display_value="R2UX" source="x_387592_from_re_0">9e20040147703110d1df690cd36d4331</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="R2UX">9e20040147703110d1df690cd36d4331</sys_scope>
+        <sys_update_name>sys_ux_data_broker_graphql_abba4a7247a53510d1df690cd36d438d</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-10-01 21:07:37</sys_updated_on>
+        <type>query</type>
+        <use_record_domain>false</use_record_domain>
+    </sys_ux_data_broker_graphql>
+    <sys_translated_text action="delete_multiple" query="documentkey=abba4a7247a53510d1df690cd36d438d"/>
+</record_update>
